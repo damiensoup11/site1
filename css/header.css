@@ -93,8 +93,8 @@
 .hero-tree {
   position: absolute;
   right: 6%;
-  bottom: 0;
-  width: 36%;
+  bottom: -3%;
+  width: 34%;
   opacity: 1;
   pointer-events: none;
   transform-origin: bottom center;
@@ -320,6 +320,7 @@
   .hero-tree {
     opacity: 0.3;
     right: -5%;
+
   }
 
   .hero-stats {
