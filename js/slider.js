@@ -12,6 +12,7 @@ class HorizontalSlider {
     this.dotsContainer = document.querySelector(options.dotsSelector);
     this.cardSelector = options.cardSelector;
     this.scrollAmount = options.scrollAmount || 340;
+    this.infinite = options.infinite !== false;
 
     if (!this.track) return;
 
@@ -23,26 +24,22 @@ class HorizontalSlider {
   }
 
   init() {
-    // Arrow buttons
     if (this.prevBtn) this.prevBtn.addEventListener('click', () => this.scroll(-1));
     if (this.nextBtn) this.nextBtn.addEventListener('click', () => this.scroll(1));
 
-    // Drag to scroll
     this.track.addEventListener('mousedown', e => this.dragStart(e));
     this.track.addEventListener('mousemove', e => this.dragMove(e));
     this.track.addEventListener('mouseup', () => this.dragEnd());
     this.track.addEventListener('mouseleave', () => this.dragEnd());
 
-    // Touch support
     this.track.addEventListener('touchstart', e => this.dragStart(e.touches[0]), { passive: true });
     this.track.addEventListener('touchmove', e => this.dragMove(e.touches[0]), { passive: true });
     this.track.addEventListener('touchend', () => this.dragEnd());
 
-    // Scroll → update dots
     this.track.addEventListener('scroll', () => this.updateDots(), { passive: true });
 
-    // Build dots
     this.buildDots();
+    if (this.infinite) this.setupInfiniteScroll();
   }
 
   scroll(direction) {
@@ -72,12 +69,11 @@ class HorizontalSlider {
 
   buildDots() {
     if (!this.dotsContainer) return;
-    const cards = this.track.querySelectorAll(this.cardSelector);
+    const cards = this.track.querySelectorAll(this.cardSelector + ':not([aria-hidden])');
     if (cards.length === 0) return;
 
-    // Считаем сколько карточек видно одновременно
     const trackWidth = this.track.clientWidth;
-    const cardWidth = cards[0].offsetWidth + 20; // 20 = gap
+    const cardWidth = cards[0].offsetWidth + 20;
     const visibleCount = Math.floor(trackWidth / cardWidth);
     const totalDots = Math.max(1, cards.length - visibleCount + 1);
 
@@ -92,7 +88,7 @@ class HorizontalSlider {
   }
 
   scrollToCard(index) {
-    const cards = this.track.querySelectorAll(this.cardSelector);
+    const cards = this.track.querySelectorAll(this.cardSelector + ':not([aria-hidden])');
     if (cards[index]) {
       cards[index].scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
     }
@@ -101,16 +97,58 @@ class HorizontalSlider {
   updateDots() {
     if (!this.dotsContainer) return;
     const dots = this.dotsContainer.querySelectorAll('[class*="-dot"]');
-    const cards = this.track.querySelectorAll(this.cardSelector);
+    const cards = this.track.querySelectorAll(this.cardSelector + ':not([aria-hidden])');
     if (cards.length === 0 || dots.length === 0) return;
 
     const cardWidth = cards[0].offsetWidth + 20;
-    const index = Math.min(
-      Math.round(this.track.scrollLeft / cardWidth),
-      dots.length - 1
-    );
+
+    let index;
+    if (this.infinite) {
+      const realOffset = this.track.scrollLeft - cardWidth * cards.length;
+      index = Math.min(Math.max(0, Math.round(realOffset / cardWidth)), dots.length - 1);
+    } else {
+      index = Math.min(Math.round(this.track.scrollLeft / cardWidth), dots.length - 1);
+    }
 
     dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
+  }
+
+  setupInfiniteScroll() {
+    const cards = Array.from(this.track.querySelectorAll(this.cardSelector));
+    if (cards.length < 2) return;
+
+    cards.forEach(card => {
+      const cloneEnd = card.cloneNode(true);
+      cloneEnd.setAttribute('aria-hidden', 'true');
+      this.track.appendChild(cloneEnd);
+    });
+
+    cards.slice().reverse().forEach(card => {
+      const cloneStart = card.cloneNode(true);
+      cloneStart.setAttribute('aria-hidden', 'true');
+      this.track.insertBefore(cloneStart, this.track.firstChild);
+    });
+
+    const cardWidth = cards[0].offsetWidth + 20;
+    const offset = cardWidth * cards.length;
+    this.track.scrollLeft = offset;
+
+    this.track.addEventListener('scroll', () => {
+      const total = cardWidth * cards.length;
+      const sl = this.track.scrollLeft;
+
+      if (sl < cardWidth * 0.5) {
+        this.track.style.scrollBehavior = 'auto';
+        this.track.scrollLeft = sl + total;
+        this.track.style.scrollBehavior = '';
+      }
+
+      if (sl > total * 2 - cardWidth * 0.5) {
+        this.track.style.scrollBehavior = 'auto';
+        this.track.scrollLeft = sl - total;
+        this.track.style.scrollBehavior = '';
+      }
+    }, { passive: true });
   }
 }
 
@@ -123,6 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
     dotsSelector: '.works-dots',
     cardSelector: '.work-card',
     scrollAmount: 320,
+    infinite: true,
   });
 
   new HorizontalSlider({
@@ -132,5 +171,6 @@ document.addEventListener('DOMContentLoaded', () => {
     dotsSelector: '.conditions-dots',
     cardSelector: '.condition-card',
     scrollAmount: 380,
+    infinite: false,
   });
 });
