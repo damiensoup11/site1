@@ -15,7 +15,7 @@
 }
 
 .site-header.scrolled {
-  background: rgba(10, 10, 10, 0.92);
+  background: rgba(12, 8, 8, 0.92);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   padding: 14px 48px;
