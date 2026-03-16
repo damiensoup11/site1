@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Профессиональная инфографика для маркетплейсов и бизнеса. Карточки товаров, презентации, визуальный контент.">
+    <title>Инфографика - Глеб Вишнёв</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/works.css">
+    <link rel="stylesheet" href="css/conditions.css">
+    <link rel="stylesheet" href="css/pricing.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="logo">Глеб<span>.</span>Вишнёв</div>
+
+
+    </header>
+    <!-- Custom cursor -->
+    <div id="cursor"></div>
+    <div id="cursor-ring"></div>
+
+    <!-- ============================================================ -->
+    <!-- HERO                                                          -->
+    <!-- ============================================================ -->
+    <section id="hero">
+        <div class="hero-bg"></div>
+
+        <!-- Decorative tree from site mockup -->
+        <img class="hero-tree" src="/images/photo.png" alt="" aria-hidden="true">
+
+        <div class="hero-content">
+            <p class="hero-eyebrow">Инфографика &amp; Карточки товаров</p>
+
+            <h1 class="hero-title">
+                Дизайн,
+                <span class="line-red">который</span>
+                продаёт
+            </h1>
+
+            <p class="hero-subtitle">
+                Создаю инфографику для маркетплейсов, карточки товаров
+                и визуальный контент, который выделяет ваш продукт среди конкурентов
+            </p>
+
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <div class="stat-number">
+                        <span data-count="100" data-suffix="+">0+</span>
+                    </div>
+                    <div class="stat-label">Проектов</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">
+                        <span data-count="2" data-suffix=" года">0</span>
+                    </div>
+                    <div class="stat-label">Опыта</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">
+                        <span data-count="99" data-suffix="%">0%</span>
+                    </div>
+                    <div class="stat-label">Довольных клиентов</div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Marquee strip -->
+    <div class="tag-strip" aria-hidden="true">
+        <div class="tag-strip-inner">
+            <span>Маркетплейсы</span>
+            <span>Wildberries</span>
+            <span>Ozon</span>
+            <span>Инфографика</span>
+            <span>Карточки товаров</span>
+            <span>Визуальный контент</span>
+            <span>Быстрые сроки</span>
+            <span>Уникальный дизайн</span>
+        </div>
+    </div>
+
+    <div class="section-sep"></div>
+
+    <!-- ============================================================ -->
+    <!-- WORKS                                                         -->
+    <!-- ============================================================ -->
+    <section id="works">
+        <div class="works-header">
+            <div class="works-header-left reveal">
+                <p class="section-label">Портфолио</p>
+                <h2 class="section-title">Мои работы</h2>
+            </div>
+            <div class="works-nav reveal reveal-delay-2">
+                <button class="works-nav-btn" id="works-prev" aria-label="Предыдущие работы">
+                    <svg viewBox="0 0 24 24">
+                        <polyline points="15 18 9 12 15 6" />
+                    </svg>
+                </button>
+                <button class="works-nav-btn" id="works-next" aria-label="Следующие работы">
+                    <svg viewBox="0 0 24 24">
+                        <polyline points="9 6 15 12 9 18" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="works-carousel-wrapper">
+            <div class="works-carousel" role="list">
+
+
+
+                <div class="work-card" role="listitem">
+                    <img src="images/card1.png" alt="Работа 1 - Боксёрский шлем Everlast" loading="lazy">
+                    <div class="work-card-overlay">
+                        <div class="work-card-zoom">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="work-card" role="listitem">
+                    <img src="images/card2.png" alt="Работа 2 - Резиновая уточка" loading="lazy">
+                    <div class="work-card-overlay">
+                        <div class="work-card-zoom">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="work-card" role="listitem">
+                    <img src="images/card3.png" alt="Работа 3 - Бас-гитара" loading="lazy"
+                        onerror="this.parentElement.style.background='#1a1a1a'; this.style.display='none';">
+                    <div class="work-card-overlay">
+                        <div class="work-card-zoom">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="work-card" role="listitem">
+                    <img src="images/card4.png" alt="Работа 4 - Игровые наушники" loading="lazy"
+                        onerror="this.parentElement.style.background='#1a1a1a'; this.style.display='none';">
+                    <div class="work-card-overlay">
+                        <div class="work-card-zoom">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="work-card" role="listitem">
+                    <img src="images/card5.png" alt="Работа 4 - Игровые наушники" loading="lazy"
+                        onerror="this.parentElement.style.background='#1a1a1a'; this.style.display='none';">
+                    <div class="work-card-overlay">
+                        <div class="work-card-zoom">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="work-card" role="listitem">
+                    <img src="images/card6.png" alt="Работа 4 - Игровые наушники" loading="lazy"
+                        onerror="this.parentElement.style.background='#1a1a1a'; this.style.display='none';">
+                    <div class="work-card-overlay">
+                        <div class="work-card-zoom">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="work-card" role="listitem">
+                    <img src="images/card7.png" alt="Работа 4 - Игровые наушники" loading="lazy"
+                        onerror="this.parentElement.style.background='#1a1a1a'; this.style.display='none';">
+                    <div class="work-card-overlay">
+                        <div class="work-card-zoom">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <!-- ПРИМЕР: вставьте сюда новые работы -->
+                <!-- 
+      <div class="work-card" role="listitem">
+        <img src="images/card1.png" alt="Описание работы" loading="lazy">
+        <div class="work-card-overlay">
+          <div class="work-card-zoom">
+            <svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+          </div>
+        </div>
+      </div>
+      -->
+
+            </div>
+        </div>
+
+        <div class="works-dots" role="tablist" aria-label="Навигация по работам"></div>
+    </section>
+
+    <div class="section-sep"></div>
+
+    <!-- ============================================================ -->
+    <!-- CONDITIONS                                                    -->
+    <!-- ============================================================ -->
+    <section id="conditions">
+        <div class="conditions-header">
+            <div class="reveal">
+                <p class="section-label">Как я работаю</p>
+                <h2 class="section-title">Условия работы</h2>
+            </div>
+            <div class="conditions-nav reveal reveal-delay-2">
+                <button class="conditions-nav-btn" id="cond-prev" aria-label="Предыдущие условия">
+                    <svg viewBox="0 0 24 24">
+                        <polyline points="15 18 9 12 15 6" />
+                    </svg>
+                </button>
+                <button class="conditions-nav-btn" id="cond-next" aria-label="Следующие условия">
+                    <svg viewBox="0 0 24 24">
+                        <polyline points="9 6 15 12 9 18" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="conditions-slider" role="list">
+
+            <!--
+      ╔══════════════════════════════════════╗
+      ║  КАК ДОБАВИТЬ УСЛОВИЕ:              ║
+      ║  Скопируйте блок .condition-card    ║
+      ║  и вставьте в конец списка          ║
+      ╚══════════════════════════════════════╝
+    -->
+
+            <div class="condition-card" role="listitem">
+                <div class="condition-icon">⚡</div>
+                <div class="condition-num">01</div>
+                <h3 class="condition-title">Быстрые сроки</h3>
+                <p class="condition-text">
+                    Готовая обложка — в течение 5 часов после брифинга. Полный комплект слайдов
+                     — в течение 2 рабочих дней
+                </p>
+            </div>
+
+            <div class="condition-card" role="listitem">
+                <div class="condition-icon">🔄</div>
+                <div class="condition-num">02</div>
+                <h3 class="condition-title">Правки включены</h3>
+                <p class="condition-text">
+                    2 круга правок входят в стоимость любого тарифа. Дополнительные правки
+                    согласуются отдельно по фиксированному прайсу
+                </p>
+            </div>
+
+            <div class="condition-card" role="listitem">
+                <div class="condition-icon">📁</div>
+                <div class="condition-num">03</div>
+                <h3 class="condition-title">Исходники в комплекте</h3>
+                <p class="condition-text">
+                    Отдаю файлы Figma или PSD вместе с готовой работой — редактируйте
+                    в любой момент самостоятельно
+                </p>
+            </div>
+
+            <div class="condition-card" role="listitem">
+                <div class="condition-icon">🎯</div>
+                <div class="condition-num">04</div>
+                <h3 class="condition-title">Анализ конкурентов</h3>
+                <p class="condition-text">
+                    Перед началом работы изучаю нишу и топовых продавцов. Дизайн строится
+                    на реальных данных, а не шаблонах
+                </p>
+            </div>
+
+            <div class="condition-card" role="listitem">
+                <div class="condition-icon">💬</div>
+                <div class="condition-num">05</div>
+                <h3 class="condition-title">Связь в Telegram</h3>
+                <p class="condition-text">
+                    Всё общение — в одном чате. Отвечаю оперативно, держу в курсе
+                    каждого этапа работы
+                </p>
+            </div>
+
+            <div class="condition-card" role="listitem">
+                <div class="condition-icon">🏆</div>
+                <div class="condition-num">06</div>
+                <h3 class="condition-title">Гарантия качества</h3>
+                <p class="condition-text">
+                    Моя задача — не просто красивая картинка, а реальный рост CTR 
+                    и ваших продаж. Я создаю рабочий дизайн, опираясь на тщательный анализ рынка
+                </p>
+            </div>
+
+        </div>
+
+        <div class="conditions-dots" role="tablist" aria-label="Навигация по условиям"></div>
+    </section>
+
+    <div class="section-sep-red"></div>
+
+    <!-- ============================================================ -->
+    <!-- PRICING                                                       -->
+    <!-- ============================================================ -->
+    <section id="pricing">
+        <div class="pricing-bg-glow"></div>
+
+        <div class="pricing-header reveal">
+            <p class="section-label">Стоимость</p>
+            <h2 class="section-title">Прайс-лист</h2>
+            <p class="pricing-subtitle">Доступные тарифы — выберите подходящий</p>
+        </div>
+
+        <div class="pricing-grid">
+
+            <!-- БАЗОВЫЙ -->
+            <div class="price-card reveal reveal-delay-1">
+                <div class="price-tier">Базовый</div>
+                <div class="price-description">Главный слайд</div>
+                <div class="price-divider"></div>
+                <ul class="price-features">
+                    <li class="price-feature">
+                        <span class="price-feature-dot"></span>
+                        Люкс обложка
+                    </li>
+                    <li class="price-feature">
+                        <span class="price-feature-dot"></span>
+                        Анализ конкурентов
+                    </li>
+                    <li class="price-feature">
+                        <span class="price-feature-dot"></span>
+                        2 круга правок
+                    </li>
+                    <li class="price-feature">
+                        <span class="price-feature-dot"></span>
+                        Обработка исходников
+                    </li>
+                </ul>
+                <div class="price-amount">1 190 ₽<span></span></div>
+                <div class="price-note">+500 ₽ доп. слайд</div>
+                <a href="https://t.me/rosewood_str" target="_blank" rel="noopener" class="price-cta">
+                    Выбрать →
+                </a>
+            </div>
+
+            <!-- ПРЕМИУМ (featured) -->
+            <div class="price-card featured reveal reveal-delay-2">
+                <div class="price-badge">
+                    <span class="price-badge-icon">★</span>
+                    Популярный
+                </div>
+                <div class="price-tier">Премиум</div>
+                <div class="price-description">2 обложки + 5 слайдов</div>
+                <div class="price-divider"></div>
+                <ul class="price-features">
+                    <li class="price-feature">
+                        <span class="price-feature-dot"></span>
+                        2 люкс обложки
+                    </li>
+                    <li class="price-feature">
+                        <span class="price-feature-dot"></span>
+                        5 доп. слайдов
+                    </li>
+                    <li class="price-feature">
+                        <span class="price-feature-dot"></span>
+                        Анализ конкурентов
+                    </li>
+                    <li class="price-feature">
+                        <span class="price-feature-dot"></span>
+                        3 круга правок
+                    </li>
+                    <li class="price-feature">
+                        <span class="price-feature-dot"></span>
+                        Обработка исходников
+                    </li>
+                    <li class="price-feature">
+                        <span class="price-feature-dot"></span>
+                        Вид обложки в выдаче
+                    </li>
+                </ul>
+                <div class="price-amount">4 500 ₽<span></span></div>
+                <div class="price-note">−10% на доп. слайды</div>
+                <a href="https://t.me/rosewood_str" target="_blank" rel="noopener" class="price-cta">
+                    Выбрать →
+                </a>
+            </div>
+
+            <!-- БИЗНЕС+ -->
+            <div class="price-card reveal business reveal-delay-3">
+                <div class="price-badge" style="background: rgba(255,255,255,0.12); color: white;">
+                    <span class="price-badge-icon">👑</span>
+                    Максимальный CTR
+                </div>
+                <div class="price-tier">Бизнес+</div>
+                <div class="price-description">Готовая карточка</div>
+                <div class="price-divider"></div>
+                <ul class="price-features">
+                    <li class="price-feature">
+                        <span class="price-feature-dot"></span>
+                        Всё как в Премиум
+                    </li>
+                    <li class="price-feature">
+                        <span class="price-feature-dot"></span>
+                        10 доп. слайдов
+                    </li>
+                    <li class="price-feature">
+                        <span class="price-feature-dot"></span>
+                        Безлимитные правки
+                    </li>
+                    <li class="price-feature">
+                        <span class="price-feature-dot"></span>
+                        Самые мощные нейросети
+                    </li>
+                </ul>
+                <div class="price-amount">9 990 ₽<span></span></div>
+                <div class="price-note">+1 доп. слайд бесплатно</div>
+                <a href="https://t.me/rosewood_str" target="_blank" rel="noopener" class="price-cta business-cta">
+                    Выбрать →
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+    <div class="section-sep"></div>
+
+    <!-- ============================================================ -->
+    <!-- CTA                                                           -->
+    <!-- ============================================================ -->
+    <section id="cta">
+        <div class="cta-glow"></div>
+        <p class="cta-label reveal">Готовы начать?</p>
+        <h2 class="cta-title reveal reveal-delay-1">
+            Обсудим ваш<br><span>проект</span>
+        </h2>
+        <a href="https://t.me/rosewood_str" target="_blank" rel="noopener" class="btn-cta reveal reveal-delay-2"
+            aria-label="Написать в Telegram">
+            <span>Заказать</span>
+            <span class="btn-cta-icon">→</span>
+        </a>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- FOOTER                                                        -->
+    <!-- ============================================================ -->
+    <footer>
+        <div class="footer-logo">Глеб<span>.</span>Вишнёв</div>
+
+        <div class="footer-links">
+            <a href="#works">Портфолио</a>
+            <a href="#conditions">Условия</a>
+            <a href="#pricing">Прайс</a>
+        </div>
+
+        <div class="footer-socials">
+            <a href="https://t.me/rosewood_str" target="_blank" rel="noopener" class="footer-social-btn"
+                aria-label="Telegram" title="Telegram">✈</a>
+        </div>
+
+        <p class="footer-copy">© 2026 Глеб Вишнёв. Инфографика для маркетплейсов</p>
+    </footer>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Просмотр работы">
+        <div class="lightbox-inner">
+            <button class="lightbox-close" aria-label="Закрыть">✕</button>
+            <button class="lightbox-prev" aria-label="Предыдущая работа">
+                <svg viewBox="0 0 24 24">
+                    <polyline points="15 18 9 12 15 6" />
+                </svg>
+            </button>
+            <img class="lightbox-img" src="" alt="Работа в полном размере"
+                style="transition: opacity 0.18s ease, transform 0.18s ease;">
+            <button class="lightbox-next" aria-label="Следующая работа">
+                <svg viewBox="0 0 24 24">
+                    <polyline points="9 6 15 12 9 18" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- JS -->
+    <script src="js/main.js"></script>
+    <script src="js/slider.js"></script>
+    <script src="js/lightbox.js"></script>
+    <script src="js/cherry.js"></script>
+</body>
+
+</html>

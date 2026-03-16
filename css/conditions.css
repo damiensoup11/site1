@@ -1,0 +1,166 @@
+/* ===== CONDITIONS SECTION ===== */
+
+#conditions {
+  padding: 100px 0;
+  overflow: hidden;
+}
+
+.conditions-header {
+  padding: 0 48px;
+  margin-bottom: 48px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.conditions-nav {
+  display: flex;
+  gap: 12px;
+}
+
+.conditions-nav-btn {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 1.5px solid var(--glass-border);
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition);
+  color: var(--white-dim);
+}
+
+.conditions-nav-btn:hover {
+  background: var(--red);
+  border-color: var(--red);
+  color: var(--white);
+}
+
+.conditions-nav-btn svg {
+  width: 18px; height: 18px;
+  stroke: currentColor; stroke-width: 2; fill: none;
+}
+
+/* Slider */
+.conditions-slider {
+  display: flex;
+  gap: 20px;
+  padding: 8px 48px 20px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  cursor: grab;
+  -webkit-overflow-scrolling: touch;
+}
+
+.conditions-slider:active { cursor: grabbing; }
+.conditions-slider::-webkit-scrollbar { display: none; }
+
+/*
+  ========================================
+  КАК ДОБАВИТЬ УСЛОВИЕ:
+  Скопируйте блок .condition-card и вставьте
+  в div.conditions-slider. Поменяйте иконку,
+  заголовок и текст.
+  ========================================
+*/
+
+.condition-card {
+  flex-shrink: 0;
+  width: 360px;
+  padding: 36px;
+  border-radius: var(--radius);
+  background: var(--card-bg);
+  border: 1px solid rgba(255,255,255,0.06);
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.condition-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--red);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease;
+}
+
+.condition-card:hover {
+  border-color: rgba(212, 0, 26, 0.25);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+}
+
+.condition-card:hover::before { transform: scaleX(1); }
+
+.condition-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-sm);
+  background: rgba(212, 0, 26, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  font-size: 24px;
+}
+
+.condition-num {
+  position: absolute;
+  top: 32px;
+  right: 32px;
+  font-family: var(--font-display);
+  font-size: 64px;
+  font-weight: 900;
+  color: rgba(255,255,255,0.03);
+  line-height: 1;
+  letter-spacing: -0.05em;
+}
+
+.condition-title {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+
+.condition-text {
+  font-size: 14px;
+  color: var(--white-dim);
+  line-height: 1.65;
+}
+
+/* Progress */
+.conditions-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.conditions-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255,255,255,0.15);
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+.conditions-dot.active {
+  width: 24px;
+  background: var(--red);
+}
+
+@media (max-width: 900px) {
+  .conditions-header { padding: 0 24px; flex-direction: column; align-items: flex-start; gap: 24px; }
+  .conditions-slider { padding: 8px 24px 20px; }
+  .condition-card { width: 300px; padding: 28px; }
+}
