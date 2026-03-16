@@ -24,6 +24,7 @@
         'height:100%',
         'pointer-events:none',
         'z-index:1',
+        'image-rendering:auto',
     ].join(';');
     hero.appendChild(canvas);
 
@@ -68,7 +69,8 @@
     function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         tick += 0.008;
-
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high'; // 'low', 'medium', 'high'
         if (img.complete && img.naturalWidth > 0) {
             petals.forEach(p => {
                 // движение
@@ -87,6 +89,7 @@
 
                 // отрисовка
                 ctx.save();
+
                 ctx.globalAlpha = p.opacity;
                 ctx.translate(p.x, p.y);
                 ctx.rotate(p.angle);

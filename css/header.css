@@ -271,9 +271,11 @@
   .site-header {
     padding: 18px 24px;
   }
-.hero-content {
+
+  .hero-content {
     margin-left: 0;
   }
+
   .hero-tree {
     display: none;
   }
@@ -284,14 +286,18 @@
 
   .nav {
     position: fixed;
-    inset: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
+    /* было 999, поднять выше nav-toggle */
     background: rgba(10, 10, 10, 0.97);
     flex-direction: column;
     justify-content: center;
     gap: 32px;
     transform: translateX(100%);
     transition: transform var(--transition);
-    z-index: 999;
   }
 
   .nav.open {

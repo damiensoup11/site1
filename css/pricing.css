@@ -50,8 +50,7 @@
   border-radius: 28px;
   padding: 36px 32px;
   overflow: hidden;
-  transition: transform var(--transition), box-shadow var(--transition);
-
+  transition: transform var(--transition), box-shadow var(--transition), background 0.4s ease, border-color 0.4s ease;
   /* Liquid glass base */
   background: linear-gradient(135deg,
       rgba(255, 255, 255, 0.09) 0%,
@@ -66,38 +65,56 @@
     inset 0 -1px 0 rgba(0, 0, 0, 0.2);
 }
 
-/* Glass inner shine */
 .price-card::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 50%;
-  background: linear-gradient(to bottom,
-      rgba(255, 255, 255, 0.08) 0%,
-      transparent 100%);
-  border-radius: 28px 28px 0 0;
+  inset: -2px;
+  border-radius: 30px;
+  opacity: 0;
+  transition: opacity 0.5s ease;
   pointer-events: none;
+  z-index: -1;
+  filter: blur(20px);
 }
 
-/* Glass specular reflection */
-.price-card::after {
-  content: '';
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  width: 60%;
-  height: 30%;
-  background: radial-gradient(ellipse, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-  border-radius: 50%;
-  pointer-events: none;
+.price-card:hover::before {
+  opacity: 1;
 }
+
+/* Базовая — белое свечение */
+.price-card:not(.featured):not(.business)::before {
+  background: radial-gradient(ellipse at 50% 100%,
+      rgba(255, 255, 255, 0.15) 0%,
+      transparent 70%);
+}
+
+/* Премиум — красное свечение */
+.price-card.featured::before {
+  background: radial-gradient(ellipse at 50% 100%,
+      rgba(212, 0, 26, 0.5) 0%,
+      transparent 70%);
+}
+
+/* Бизнес+ — золотое свечение */
+.price-card.business::before {
+  background: radial-gradient(ellipse at 50% 100%,
+      rgba(233, 207, 7, 0.4) 0%,
+      transparent 70%);
+}
+
+
 
 .price-card:hover {
-  transform: translateY(-6px);
+  transform: translateY(-6px) !important;
+  background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.14) 0%,
+      rgba(255, 255, 255, 0.06) 50%,
+      rgba(255, 255, 255, 0.11) 100%);
+  border-color: rgba(255, 255, 255, 0.25);
   box-shadow:
     0 20px 60px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.3),
+    0 0 40px rgba(255, 255, 255, 0.04),
     inset 0 1px 0 rgba(255, 255, 255, 0.2),
     inset 0 -1px 0 rgba(0, 0, 0, 0.2);
 }
@@ -118,7 +135,7 @@
 }
 
 .price-card.featured:hover {
-  transform: scale(1.04) translateY(-6px);
+  transform: scale(1.05) translateY(-6px) !important;
   box-shadow:
     0 30px 80px rgba(212, 0, 26, 0.25),
     0 0 0 1px rgba(212, 0, 26, 0.3),
@@ -147,6 +164,20 @@
       rgba(202, 166, 5, 0.04) 50%,
       rgba(207, 169, 0, 0.09) 100%);
   border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.price-card.business:hover {
+  transform: translateY(-6px);
+  background: linear-gradient(135deg,
+      rgba(233, 207, 7, 0.22) 0%,
+      rgba(202, 166, 5, 0.08) 50%,
+      rgba(207, 169, 0, 0.18) 100%);
+  border-color: rgba(233, 207, 7, 0.35);
+  box-shadow:
+    0 20px 60px rgba(180, 150, 0, 0.2),
+    0 0 0 1px rgba(233, 207, 7, 0.15),
+    inset 0 1px 0 rgba(255, 230, 80, 0.2),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.2);
 }
 
 .price-badge-icon {
@@ -274,12 +305,14 @@
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.06), transparent);
   transition: left 0.5s ease;
 }
+
 .price-cta.business-cta {
   background: linear-gradient(135deg,
       rgba(247, 218, 4, 0.20) 0%,
       rgba(237, 194, 5, 0.1) 50%,
       rgba(237, 194, 3, 0.2) 100%);
 }
+
 .price-cta:hover::before {
   left: 100%;
 }

@@ -63,6 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const isOpen = nav.classList.toggle('open');
       navToggle.setAttribute('aria-expanded', isOpen);
       document.body.style.overflow = isOpen ? 'hidden' : '';
+      if (isOpen) window.scrollTo({ top: 0, behavior: 'smooth' }); // добавить
     });
 
     // Close on link click
@@ -70,6 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
       link.addEventListener('click', () => {
         nav.classList.remove('open');
         document.body.style.overflow = '';
+        navToggle.setAttribute('aria-expanded', 'false'); // добавить
       });
     });
   }
