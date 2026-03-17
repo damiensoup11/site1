@@ -32,9 +32,8 @@ class HorizontalSlider {
 
     // Touch
     this.track.addEventListener('touchstart', e => this.dragStart(e.touches[0]), { passive: true });
-    this.track.addEventListener('touchmove', e => this.dragMove(e.touches[0]), { passive: true });
-    this.track.addEventListener('touchend', () => this.dragEnd());
-
+    window.addEventListener('touchmove', e => this.dragMove(e.touches[0]), { passive: true }); // window вместо track
+    window.addEventListener('touchend', () => this.dragEnd());
     // Dots
     this.track.addEventListener('scroll', () => this.updateDots(), { passive: true });
 
@@ -75,27 +74,29 @@ class HorizontalSlider {
   }
 
   dragEnd() {
-    if (!this.isDragging) return;
-    this.isDragging = false;
-    this.track.style.cursor = 'grab';
-    this.track.style.userSelect = '';
+  if (!this.isDragging) return;
+  this.isDragging = false;
+  this.track.style.cursor = 'grab';
+  this.track.style.userSelect = '';
 
-    // Инерция после отпускания
-    this.applyMomentum(this.velX * -400);
-  }
+  const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
+  const multiplier = isTouchDevice ? -800 : -400; // добавить
+  this.applyMomentum(this.velX * multiplier);
+}
 
   applyMomentum(velocity) {
-    const friction = 0.92;
+  const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
+  const friction = isTouchDevice ? 0.95 : 0.92; // было только 0.92
 
-    const step = () => {
-      if (Math.abs(velocity) < 0.5) return;
-      this.track.scrollLeft += velocity;
-      velocity *= friction;
-      this.rafId = requestAnimationFrame(step);
-    };
-
+  const step = () => {
+    if (Math.abs(velocity) < 0.5) return;
+    this.track.scrollLeft += velocity;
+    velocity *= friction;
     this.rafId = requestAnimationFrame(step);
-  }
+  };
+
+  this.rafId = requestAnimationFrame(step);
+}
 
   buildDots() {
     if (!this.dotsContainer) return;
