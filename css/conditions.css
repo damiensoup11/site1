@@ -57,6 +57,7 @@
   user-select: none;
   cursor: grab;
   will-change: scroll-position;
+  scroll-behavior: auto;
 }
 
 .conditions-slider:active { cursor: grabbing; }
@@ -112,7 +113,10 @@
   margin-bottom: 24px;
   font-size: 24px;
 }
-
+.condition-card {
+  user-select: none;
+  -webkit-user-select: none;
+}
 .condition-num {
   position: absolute;
   top: 32px;

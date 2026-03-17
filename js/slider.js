@@ -2,7 +2,7 @@
  * slider.js — Premium Slider
  * - Бесконечный слайдер для works
  * - Конечный слайдер для conditions
- * - Mouse drag, touch, кнопки, инерция
+ * - Mouse drag, touch, кнопки, инерция — для обоих
  */
 
 class Slider {
@@ -45,6 +45,8 @@ class Slider {
     }, { passive: true });
   }
 
+  /* ─── INFINITE: клонирование ─── */
+
   cloneCards() {
     const originals = Array.from(this.track.querySelectorAll(this.cardSelector));
     if (originals.length < 2) return;
@@ -72,6 +74,8 @@ class Slider {
     this.track.scrollLeft = cardW * originals.length;
   }
 
+  /* ─── DRAG — работает для обоих слайдеров ─── */
+
   bindDrag() {
     const t = this.track;
 
@@ -95,6 +99,7 @@ class Slider {
       if (this.isDown) this.onUp();
     });
 
+    // Блокируем клик если было движение
     t.addEventListener('click', e => {
       if (this.moved) {
         e.preventDefault();
@@ -131,7 +136,7 @@ class Slider {
 
   onUp() {
     this.isDown = false;
-    this.track.style.cursor = '';
+    this.track.style.cursor = 'grab';
 
     let vel = -this.velX * 18;
     const friction = 0.88;
@@ -148,6 +153,8 @@ class Slider {
 
     this.rafId = requestAnimationFrame(step);
   }
+
+  /* ─── КНОПКИ ─── */
 
   bindButtons() {
     if (this.prevBtn) this.prevBtn.addEventListener('click', () => this.step(-1));
@@ -176,6 +183,8 @@ class Slider {
     this.rafId = requestAnimationFrame(step);
   }
 
+  /* ─── INFINITE LOOP ─── */
+
   loopCheck() {
     const originals = this.track.querySelectorAll(this.cardSelector + ':not(._clone)');
     if (!originals.length) return;
@@ -185,11 +194,21 @@ class Slider {
     const sl = this.track.scrollLeft;
 
     if (sl < cardW * 0.5) {
+      this.track.style.cssText += ';scroll-behavior:auto!important';
       this.track.scrollLeft = sl + total;
+      requestAnimationFrame(() => {
+        this.track.style.cssText = this.track.style.cssText.replace(';scroll-behavior:auto!important', '');
+      });
     } else if (sl > total * 2 - cardW * 0.5) {
+      this.track.style.cssText += ';scroll-behavior:auto!important';
       this.track.scrollLeft = sl - total;
+      requestAnimationFrame(() => {
+        this.track.style.cssText = this.track.style.cssText.replace(';scroll-behavior:auto!important', '');
+      });
     }
   }
+
+  /* ─── SCROLL ─── */
 
   bindScroll() {
     this.track.addEventListener('scroll', () => {
@@ -197,6 +216,8 @@ class Slider {
       this.updateDots();
     }, { passive: true });
   }
+
+  /* ─── DOTS ─── */
 
   buildDots() {
     if (!this.dotsContainer) return;
@@ -243,6 +264,8 @@ class Slider {
     const index = Math.min(Math.max(0, Math.round(raw)), dots.length - 1);
     dots.forEach((d, i) => d.classList.toggle('active', i === index));
   }
+
+  /* ─── HELPERS ─── */
 
   getGap() {
     const style = window.getComputedStyle(this.track);
