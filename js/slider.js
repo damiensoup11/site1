@@ -189,7 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
     nextSelector: '#works-next',
     dotsSelector: '.works-dots',
     cardSelector: '.work-card',
-    scrollAmount: 320,
+    scrollAmount: 1000,
     infinite: true,
   });
 
@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
     nextSelector: '#cond-next',
     dotsSelector: '.conditions-dots',
     cardSelector: '.condition-card',
-    scrollAmount: 380,
+    scrollAmount: 1000,
     infinite: false,
   });
 });
