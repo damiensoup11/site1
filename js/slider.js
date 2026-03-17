@@ -80,7 +80,7 @@ class HorizontalSlider {
   this.track.style.userSelect = '';
 
   const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
-  const multiplier = isTouchDevice ? -1200 : -600; // добавить
+  const multiplier = isTouchDevice ? -2000 : -600; // добавить
   this.applyMomentum(this.velX * multiplier);
 }
 
@@ -190,7 +190,7 @@ document.addEventListener('DOMContentLoaded', () => {
     nextSelector: '#works-next',
     dotsSelector: '.works-dots',
     cardSelector: '.work-card',
-    scrollAmount: 1000,
+    scrollAmount: 300,
     infinite: true,
   });
 
@@ -200,7 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
     nextSelector: '#cond-next',
     dotsSelector: '.conditions-dots',
     cardSelector: '.condition-card',
-    scrollAmount: 1000,
+    scrollAmount: 300,
     infinite: false,
   });
 });
