@@ -10,14 +10,7 @@ class HorizontalSlider {
 
     if (!this.track) return;
 
-    this.isDragging = false;
-    this.startX = 0;
-    this.startScrollLeft = 0;
-    this.velX = 0;
-    this.lastX = 0;
-    this.lastTime = 0;
-    this.rafId = null;
-
+    // Убираем все свойства для drag
     this.init();
   }
 
@@ -25,15 +18,9 @@ class HorizontalSlider {
     if (this.prevBtn) this.prevBtn.addEventListener('click', () => this.scroll(-1));
     if (this.nextBtn) this.nextBtn.addEventListener('click', () => this.scroll(1));
 
-    // Mouse
-    this.track.addEventListener('mousedown', e => this.dragStart(e));
-    window.addEventListener('mousemove', e => this.dragMove(e));
-    window.addEventListener('mouseup', () => this.dragEnd());
-
-    // Touch
-    this.track.addEventListener('touchstart', e => this.dragStart(e.touches[0]), { passive: true });
-    window.addEventListener('touchmove', e => this.dragMove(e.touches[0]), { passive: true }); // window вместо track
-    window.addEventListener('touchend', () => this.dragEnd());
+    // Убираем все mouse/touch события для перетаскивания!
+    // Оставляем только скролл для обновления точек
+    
     // Dots
     this.track.addEventListener('scroll', () => this.updateDots(), { passive: true });
 
@@ -45,58 +32,7 @@ class HorizontalSlider {
     this.track.scrollBy({ left: direction * this.scrollAmount, behavior: 'smooth' });
   }
 
-  dragStart(e) {
-    cancelAnimationFrame(this.rafId);
-    this.isDragging = true;
-    this.startX = e.pageX;
-    this.startScrollLeft = this.track.scrollLeft;
-    this.velX = 0;
-    this.lastX = e.pageX;
-    this.lastTime = performance.now();
-    this.track.style.cursor = 'grabbing';
-    this.track.style.userSelect = 'none';
-  }
-
-  dragMove(e) {
-    if (!this.isDragging) return;
-    const now = performance.now();
-    const dt = now - this.lastTime;
-
-    if (dt > 0) {
-      this.velX = (e.pageX - this.lastX) / dt;
-    }
-
-    this.lastX = e.pageX;
-    this.lastTime = now;
-
-    const walk = e.pageX - this.startX;
-    this.track.scrollLeft = this.startScrollLeft - walk;
-  }
-
-  dragEnd() {
-  if (!this.isDragging) return;
-  this.isDragging = false;
-  this.track.style.cursor = 'grab';
-  this.track.style.userSelect = '';
-
-  const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
-  const multiplier = isTouchDevice ? -2000 : -600; // добавить
-  this.applyMomentum(this.velX * multiplier);
-}
-
-  applyMomentum(velocity) {
-  const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
-  const friction = isTouchDevice ? 0.97 : 0.95; // было только 0.92
-
-  const step = () => {
-    if (Math.abs(velocity) < 0.5) return;
-    this.track.scrollLeft += velocity;
-    velocity *= friction;
-    this.rafId = requestAnimationFrame(step);
-  };
-
-  this.rafId = requestAnimationFrame(step);
-}
+  // Удаляем dragStart, dragMove, dragEnd, applyMomentum полностью!
 
   buildDots() {
     if (!this.dotsContainer) return;
@@ -182,7 +118,6 @@ class HorizontalSlider {
     }, { passive: true });
   }
 }
-
 document.addEventListener('DOMContentLoaded', () => {
   new HorizontalSlider({
     trackSelector: '.works-carousel',
