@@ -7,41 +7,64 @@ class HorizontalSlider {
     this.cardSelector = options.cardSelector;
     this.scrollAmount = options.scrollAmount || 340;
     this.infinite = options.infinite !== false;
+    this.isScrolling = false; // Флаг для предотвращения множественных срабатываний
 
     if (!this.track) return;
 
-    // Убираем все свойства для drag
     this.init();
   }
 
   init() {
     if (this.prevBtn) this.prevBtn.addEventListener('click', () => this.scroll(-1));
     if (this.nextBtn) this.nextBtn.addEventListener('click', () => this.scroll(1));
-
-    // Убираем все mouse/touch события для перетаскивания!
-    // Оставляем только скролл для обновления точек
     
-    // Dots
-    this.track.addEventListener('scroll', () => this.updateDots(), { passive: true });
+    this.track.addEventListener('scroll', () => {
+      if (!this.isScrolling) {
+        window.requestAnimationFrame(() => {
+          this.updateDots();
+          if (this.infinite) this.handleInfiniteScroll();
+          this.isScrolling = false;
+        });
+        this.isScrolling = true;
+      }
+    }, { passive: true });
 
     this.buildDots();
     if (this.infinite) this.setupInfiniteScroll();
   }
 
   scroll(direction) {
-    this.track.scrollBy({ left: direction * this.scrollAmount, behavior: 'smooth' });
+    if (!this.track) return;
+    
+    const cardWidth = this.getCardWidth();
+    const scrollLeft = this.track.scrollLeft;
+    const targetScroll = scrollLeft + (direction * cardWidth);
+    
+    this.track.scrollTo({
+      left: targetScroll,
+      behavior: 'smooth'
+    });
   }
 
-  // Удаляем dragStart, dragMove, dragEnd, applyMomentum полностью!
+  getCardWidth() {
+    const firstCard = this.track.querySelector(this.cardSelector);
+    if (!firstCard) return this.scrollAmount;
+    
+    const style = window.getComputedStyle(firstCard);
+    const marginRight = parseInt(style.marginRight) || 0;
+    const marginLeft = parseInt(style.marginLeft) || 0;
+    
+    return firstCard.offsetWidth + marginRight + marginLeft;
+  }
 
   buildDots() {
     if (!this.dotsContainer) return;
-    const cards = this.track.querySelectorAll(this.cardSelector + ':not([aria-hidden])');
+    const cards = this.getVisibleCards();
     if (cards.length === 0) return;
 
     const trackWidth = this.track.clientWidth;
-    const cardWidth = cards[0].offsetWidth + 20;
-    const visibleCount = Math.floor(trackWidth / cardWidth);
+    const cardWidth = this.getCardWidth();
+    const visibleCount = Math.max(1, Math.floor(trackWidth / cardWidth));
     const totalDots = Math.max(1, cards.length - visibleCount + 1);
 
     this.dotsContainer.innerHTML = '';
@@ -55,69 +78,121 @@ class HorizontalSlider {
   }
 
   scrollToCard(index) {
-    const cards = this.track.querySelectorAll(this.cardSelector + ':not([aria-hidden])');
-    if (cards[index]) {
-      cards[index].scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+    const cards = this.getVisibleCards();
+    if (!cards[index]) return;
+    
+    const cardWidth = this.getCardWidth();
+    let targetScroll;
+    
+    if (this.infinite) {
+      const originalCards = this.track.querySelectorAll(this.cardSelector + ':not([aria-hidden])');
+      targetScroll = (index * cardWidth) + (cardWidth * originalCards.length);
+    } else {
+      targetScroll = index * cardWidth;
     }
+    
+    this.track.scrollTo({
+      left: targetScroll,
+      behavior: 'smooth'
+    });
+  }
+
+  getVisibleCards() {
+    return this.track.querySelectorAll(this.cardSelector + ':not([aria-hidden])');
   }
 
   updateDots() {
     if (!this.dotsContainer) return;
+    
     const dots = this.dotsContainer.querySelectorAll('[class*="-dot"]');
-    const cards = this.track.querySelectorAll(this.cardSelector + ':not([aria-hidden])');
+    const cards = this.getVisibleCards();
     if (cards.length === 0 || dots.length === 0) return;
 
-    const cardWidth = cards[0].offsetWidth + 20;
+    const cardWidth = this.getCardWidth();
+    const trackWidth = this.track.clientWidth;
+    const visibleCount = Math.floor(trackWidth / cardWidth);
+    const totalDots = cards.length - visibleCount + 1;
 
-    let index;
+    let currentIndex;
+    
     if (this.infinite) {
-      const realOffset = this.track.scrollLeft - cardWidth * cards.length;
-      index = Math.min(Math.max(0, Math.round(realOffset / cardWidth)), dots.length - 1);
+      const originalCardsCount = cards.length;
+      const scrollPosition = this.track.scrollLeft - (cardWidth * originalCardsCount);
+      currentIndex = Math.round(scrollPosition / cardWidth);
+      
+      // Ограничиваем индекс допустимыми пределами
+      currentIndex = Math.max(0, Math.min(currentIndex, totalDots - 1));
     } else {
-      index = Math.min(Math.round(this.track.scrollLeft / cardWidth), dots.length - 1);
+      currentIndex = Math.min(
+        Math.floor(this.track.scrollLeft / cardWidth),
+        totalDots - 1
+      );
     }
 
-    dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('active', i === currentIndex);
+    });
   }
 
   setupInfiniteScroll() {
-    const cards = Array.from(this.track.querySelectorAll(this.cardSelector));
-    if (cards.length < 2) return;
+    const originalCards = Array.from(this.getVisibleCards());
+    if (originalCards.length < 2) return;
 
-    cards.forEach(card => {
+    // Клонируем карточки для бесконечности
+    originalCards.forEach(card => {
       const cloneEnd = card.cloneNode(true);
       cloneEnd.setAttribute('aria-hidden', 'true');
       this.track.appendChild(cloneEnd);
     });
 
-    cards.slice().reverse().forEach(card => {
+    originalCards.slice().reverse().forEach(card => {
       const cloneStart = card.cloneNode(true);
       cloneStart.setAttribute('aria-hidden', 'true');
       this.track.insertBefore(cloneStart, this.track.firstChild);
     });
 
-    const cardWidth = cards[0].offsetWidth + 20;
-    const offset = cardWidth * cards.length;
+    const cardWidth = this.getCardWidth();
+    const offset = cardWidth * originalCards.length;
+    
+    // Устанавливаем начальную позицию без анимации
+    this.track.style.scrollBehavior = 'auto';
     this.track.scrollLeft = offset;
+    this.track.style.scrollBehavior = '';
+  }
 
-    this.track.addEventListener('scroll', () => {
-      const total = cardWidth * cards.length;
-      const sl = this.track.scrollLeft;
+  handleInfiniteScroll() {
+    const cards = this.getVisibleCards();
+    if (cards.length === 0) return;
+    
+    const cardWidth = this.getCardWidth();
+    const totalWidth = cardWidth * cards.length;
+    const currentScroll = this.track.scrollLeft;
+    
+    // Увеличиваем буферную зону для более плавного перехода
+    const bufferZone = cardWidth * 0.2;
+    
+    // Левая граница
+    if (currentScroll < cardWidth - bufferZone) {
+      this.resetScrollPosition(currentScroll + totalWidth);
+    }
+    
+    // Правая граница
+    if (currentScroll > totalWidth * 2 - cardWidth + bufferZone) {
+      this.resetScrollPosition(currentScroll - totalWidth);
+    }
+  }
 
-      if (sl < cardWidth * 0.5) {
-        this.track.style.scrollBehavior = 'auto';
-        this.track.scrollLeft = sl + total;
-        this.track.style.scrollBehavior = '';
-      }
-
-      if (sl > total * 2 - cardWidth * 0.5) {
-        this.track.style.scrollBehavior = 'auto';
-        this.track.scrollLeft = sl - total;
-        this.track.style.scrollBehavior = '';
-      }
-    }, { passive: true });
+  resetScrollPosition(newPosition) {
+    // Отключаем плавную прокрутку для мгновенного сброса позиции
+    this.track.style.scrollBehavior = 'auto';
+    this.track.scrollLeft = newPosition;
+    this.track.style.scrollBehavior = '';
+    
+    // Принудительно обновляем точки
+    this.updateDots();
   }
 }
+
 document.addEventListener('DOMContentLoaded', () => {
   new HorizontalSlider({
     trackSelector: '.works-carousel',
@@ -139,4 +214,3 @@ document.addEventListener('DOMContentLoaded', () => {
     infinite: false,
   });
 });
-
