@@ -118,6 +118,7 @@
   z-index: 2;
   max-width: 700px;
   margin-left: 6%;
+  margin-bottom: 100px;
 }
 
 .hero-eyebrow {
@@ -138,7 +139,7 @@
   font-size: clamp(44px, 7vw, 100px);
   line-height: 0.95;
   letter-spacing: -0.03em;
-  margin-bottom: 28px;
+  margin-bottom: 56px;
   opacity: 0;
   animation: fadeUp 0.9s 0.35s ease forwards;
 }
@@ -275,9 +276,11 @@
   .hero-content {
     margin-left: 0;
   }
-
+  #hero{
+    min-height: 90vh;
+  }
   .hero-tree {
-    display: none;
+    width: 70%;
   }
 
   .site-header.scrolled {
