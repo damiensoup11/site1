@@ -1,9 +1,3 @@
-/**
- * slider.js
- * Drag-to-scroll + arrow navigation for horizontal sliders
- * Used for both Works and Conditions sections
- */
-
 class HorizontalSlider {
   constructor(options) {
     this.track = document.querySelector(options.trackSelector);
@@ -18,7 +12,11 @@ class HorizontalSlider {
 
     this.isDragging = false;
     this.startX = 0;
-    this.scrollLeft = 0;
+    this.startScrollLeft = 0;
+    this.velX = 0;
+    this.lastX = 0;
+    this.lastTime = 0;
+    this.rafId = null;
 
     this.init();
   }
@@ -27,15 +25,17 @@ class HorizontalSlider {
     if (this.prevBtn) this.prevBtn.addEventListener('click', () => this.scroll(-1));
     if (this.nextBtn) this.nextBtn.addEventListener('click', () => this.scroll(1));
 
+    // Mouse
     this.track.addEventListener('mousedown', e => this.dragStart(e));
-    this.track.addEventListener('mousemove', e => this.dragMove(e));
-    this.track.addEventListener('mouseup', () => this.dragEnd());
-    this.track.addEventListener('mouseleave', () => this.dragEnd());
+    window.addEventListener('mousemove', e => this.dragMove(e));
+    window.addEventListener('mouseup', () => this.dragEnd());
 
+    // Touch
     this.track.addEventListener('touchstart', e => this.dragStart(e.touches[0]), { passive: true });
     this.track.addEventListener('touchmove', e => this.dragMove(e.touches[0]), { passive: true });
     this.track.addEventListener('touchend', () => this.dragEnd());
 
+    // Dots
     this.track.addEventListener('scroll', () => this.updateDots(), { passive: true });
 
     this.buildDots();
@@ -47,24 +47,54 @@ class HorizontalSlider {
   }
 
   dragStart(e) {
+    cancelAnimationFrame(this.rafId);
     this.isDragging = true;
-    this.startX = e.pageX - this.track.offsetLeft;
-    this.scrollLeft = this.track.scrollLeft;
+    this.startX = e.pageX;
+    this.startScrollLeft = this.track.scrollLeft;
+    this.velX = 0;
+    this.lastX = e.pageX;
+    this.lastTime = performance.now();
     this.track.style.cursor = 'grabbing';
     this.track.style.userSelect = 'none';
   }
 
   dragMove(e) {
     if (!this.isDragging) return;
-    const x = e.pageX - this.track.offsetLeft;
-    const walk = (x - this.startX) * 1.5;
-    this.track.scrollLeft = this.scrollLeft - walk;
+    const now = performance.now();
+    const dt = now - this.lastTime;
+
+    if (dt > 0) {
+      this.velX = (e.pageX - this.lastX) / dt;
+    }
+
+    this.lastX = e.pageX;
+    this.lastTime = now;
+
+    const walk = e.pageX - this.startX;
+    this.track.scrollLeft = this.startScrollLeft - walk;
   }
 
   dragEnd() {
+    if (!this.isDragging) return;
     this.isDragging = false;
     this.track.style.cursor = 'grab';
     this.track.style.userSelect = '';
+
+    // Инерция после отпускания
+    this.applyMomentum(this.velX * -400);
+  }
+
+  applyMomentum(velocity) {
+    const friction = 0.92;
+
+    const step = () => {
+      if (Math.abs(velocity) < 0.5) return;
+      this.track.scrollLeft += velocity;
+      velocity *= friction;
+      this.rafId = requestAnimationFrame(step);
+    };
+
+    this.rafId = requestAnimationFrame(step);
   }
 
   buildDots() {
@@ -152,7 +182,6 @@ class HorizontalSlider {
   }
 }
 
-// Init on DOM ready
 document.addEventListener('DOMContentLoaded', () => {
   new HorizontalSlider({
     trackSelector: '.works-carousel',
@@ -174,3 +203,4 @@ document.addEventListener('DOMContentLoaded', () => {
     infinite: false,
   });
 });
+
