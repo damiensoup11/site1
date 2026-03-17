@@ -172,3 +172,49 @@ body::before {
     display: none;
   }
 }
+
+/* Дополнительные стили для плавного скролла */
+
+/* Убираем grab курсор если не нужен (опционально) */
+.works-carousel, .conditions-slider {
+  cursor: default; /* Меняем с grab на default */
+}
+
+/* Если хотите оставить grab только на десктопе */
+@media (hover: hover) and (pointer: fine) {
+  .works-carousel, .conditions-slider {
+    cursor: grab;
+  }
+  
+  .works-carousel:active, .conditions-slider:active {
+    cursor: grabbing;
+  }
+}
+
+/* Улучшаем производительность скролла */
+.works-carousel, .conditions-slider {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: none; /* Отключаем привязку */
+  overscroll-behavior-x: contain;
+}
+
+/* Делаем градиенты немного прозрачнее для лучшего UX */
+.works-carousel-wrapper::before,
+.works-carousel-wrapper::after {
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+/* Адаптация для мобильных */
+@media (max-width: 768px) {
+  .works-carousel, .conditions-slider {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  
+  .works-carousel-wrapper::before,
+  .works-carousel-wrapper::after {
+    width: 40px; /* Уменьшаем градиенты на мобильных */
+  }
+}
