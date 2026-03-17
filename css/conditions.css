@@ -49,11 +49,14 @@
   display: flex;
   gap: 20px;
   padding: 8px 48px 20px;
-  overflow-x: auto;
-  scroll-behavior: smooth;
+  overflow-x: scroll;
+  overflow-y: visible;
   scrollbar-width: none;
-  cursor: grab;
+  -ms-overflow-style: none;
   -webkit-overflow-scrolling: touch;
+  user-select: none;
+  cursor: grab;
+  will-change: scroll-position;
 }
 
 .conditions-slider:active { cursor: grabbing; }
@@ -63,8 +66,7 @@
   ========================================
   КАК ДОБАВИТЬ УСЛОВИЕ:
   Скопируйте блок .condition-card и вставьте
-  в div.conditions-slider. Поменяйте иконку,
-  заголовок и текст.
+  в div.conditions-slider.
   ========================================
 */
 
@@ -137,7 +139,7 @@
   line-height: 1.65;
 }
 
-/* Progress */
+/* Progress dots */
 .conditions-dots {
   display: flex;
   justify-content: center;
@@ -152,6 +154,8 @@
   background: rgba(255,255,255,0.15);
   transition: var(--transition);
   cursor: pointer;
+  border: none;
+  padding: 0;
 }
 
 .conditions-dot.active {
