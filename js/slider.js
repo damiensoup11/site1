@@ -80,13 +80,13 @@ class HorizontalSlider {
   this.track.style.userSelect = '';
 
   const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
-  const multiplier = isTouchDevice ? -800 : -400; // добавить
+  const multiplier = isTouchDevice ? -1200 : -600; // добавить
   this.applyMomentum(this.velX * multiplier);
 }
 
   applyMomentum(velocity) {
   const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
-  const friction = isTouchDevice ? 0.95 : 0.92; // было только 0.92
+  const friction = isTouchDevice ? 0.97 : 0.95; // было только 0.92
 
   const step = () => {
     if (Math.abs(velocity) < 0.5) return;
